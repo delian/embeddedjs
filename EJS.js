@@ -123,8 +123,18 @@ EJS.prototype.render = function(obj) {
 
 EJS.prototype.update = function(el, obj) {
     var doc = document.getElementById(el);
-    if (doc) doc.innerHTML = this.template(obj, this.views);
-    return this;
+    var me = this;
+    if (doc) {
+        if (typeof obj === 'string') {
+            me.getUrlCache({
+                url: obj,
+                success: function(data) {
+                    doc.innerHTML(JSON.parse(data));
+                }
+            });
+        } else doc.innerHTML = this.template(obj, me.views);
+    }
+    return me;
 };
 
 EJS.prototype.views = {
