@@ -1,0 +1,23 @@
+{
+  "name": "async-embeddedjs",
+  "version": "0.0.1",
+  "description": "Async implementation of EmbeddedJS",
+  "main": "EJS.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/delian/embeddedjs.git"
+  },
+  "keywords": [
+    "Async",
+    "EmbeddedJS"
+  ],
+  "author": "Delian Delchev <delian.delchev@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/delian/embeddedjs/issues"
+  },
+  "homepage": "https://github.com/delian/embeddedjs#readme"
+}
