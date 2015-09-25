@@ -1,0 +1,24 @@
+{
+  "name": "async-embeddedjs",
+  "version": "0.0.1",
+  "homepage": "https://github.com/delian/embeddedjs",
+  "authors": [
+    "Delian Delchev <delian.delchev@gmail.com>"
+  ],
+  "description": "Async Reimplementation of Embedded JS",
+  "main": "EJS.js",
+  "keywords": [
+    "EJS",
+    "embeddedjs",
+    "embedded",
+    "javascript"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
