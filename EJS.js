@@ -4,6 +4,7 @@
 
 (function(global) {
     var ___GLOBAL_EJS_CACHE = {};
+    var fs = null;
 
     function EJS(options) {
         if (!this instanceof EJS) return new EJS(options); // TODO: check it
@@ -11,8 +12,6 @@
         this.options = options || {};
         return this.refresh();
     }
-
-    global.EJS = EJS; // Export it to the global namespace
 
     EJS.prototype.refresh = function() {
         var me = this;
@@ -41,7 +40,7 @@
         return me;
     };
 
-    EJS.prototype.getUrl = function(options) {
+    EJS.prototype.browserXfer = function(options) {
         var req = new XMLHttpRequest();
         req.onreadystatechange = function() {
             if (req.readyState == 4) {
@@ -55,6 +54,17 @@
         req.open(options.method || "GET", options.url);
         req.send(null);
         return this;
+    };
+
+    EJS.prototype.nodeXfer = function(options) {
+        if (fs) {
+            fs.readFile(options.url, function (err, data) {
+                if (err) {
+                    if (typeof options.failure === 'function') return options.failure();
+                }
+                if (typeof options.success === 'function') options.success(data);
+            });
+        } else throw "No node fs module!";
     };
 
     EJS.prototype.getUrlCache = function(options) {
@@ -302,4 +312,21 @@
             return this.single_tag_for('img', options)
         }
     };
+
+    if (typeof module !== 'undefined' && module.exports) { // Most probably we are running under Node.JS
+        module.exports = EJS;
+        global.EJS = EJS;
+        EJS.prototype.getUrl = EJS.prototype.nodeXfer;
+        fs = require('fs'); // TODO: To verify how to avoid preloading with requirejs
+    } else if (typeof define !== 'undefined' && typeof requirejs !== 'undefined') { // we are running under requirejs
+        define(function(require,exports,module) {
+            return EJS;
+        });
+        EJS.prototype.getUrl = EJS.prototype.browserXfer;
+    }
+    else {
+        global.EJS = EJS; // Export it to the global namespace
+        EJS.prototype.getUrl = EJS.prototype.browserXfer;
+    }
+
 })(this);
